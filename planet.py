@@ -14,17 +14,24 @@ class Planet(object):
     parts = [
         [
             'ho', 'ce', 'cu', 'he', 'hu', 'sa', 'cy', 'an', 'ir', 'kle', 'ke',
-            'ka', 'la', 'ny', 'ky', 'dy', 'bar'
+            'ka', 'la', 'ny', 'ky', 'dy', 'bar', 'blar', 'ger', 'yur', 'her',
+            'zor', 'for', 'nor', 'wor', 'gor', 'noth', 'roth', 'nith', 'lith',
+            'sith', 'dith', 'ith', 'oth', 'orb', 'urb', 'erb', 'zorb', 'zor',
+            'zer', 'zerb', 'zera', 'terr', 'err'
         ],
         [
-            'ta', 'te', 'ti', 'to', 'tu', 'ba', 'be', 'bi', 'bo', 'bu', 'tis',
-            'beur', 'bu', 'po', 'cu', 'ur', 'tu', 'da', 'de', 'di', 'do', 'du',
-            'ter', 'der', 'ser', 'per'
+            'ta', 'te', 'ti', 'to', 'tu', 'ba', 'be', 'bi', 'bo', 'tis', 'ris',
+            'beur', 'bu', 'po', 'cu', 'lur', 'mur', 'tu', 'da', 'de', 'di', 'do',
+            'du', 'ter', 'der', 'ser', 'per', 'fu', 'fer', 'ler', 'zer', 'wi',
+            'bre', 'dre', 'pre', 'tre', 're', 'fe', 'ge', 'ga', 'gu', 'du', 'mu',
+            'nu', 'ru'
         ],
         [
-            'res', 'alia', 'gese', 'naise', 'bler', 'pler', 'eres', 'aeder',
-            'upules', 'under', 'adia', 'adium', 'um', 'em', 'attis', 'atis',
-            'cus', 'rus', 'tus', 'ius'
+            'res', 'lia', 'gese', 'naise', 'bler', 'pler', 'teres', 'tere',
+            'pules', 'ner', 'yer', 'prer', 'padia', 'dium', 'dum', 'rem', 'tem',
+            'tis', 'ratis', 'cus', 'rus', 'tus', 'rus', 'muth', 'yuth', 'reth',
+            'roth', 'rath', 'bath', 'tath', 'path', 'padia', 'radia', 'anus',
+            'nus', 'ban', 'tan', 'lan', 'dan', 'man', 'nan', 'xan', 'zan', 'pan'
         ],
     ]
 
@@ -132,5 +139,5 @@ class Planet(object):
 
         return ret[0].upper() + ret[1:]
 
-for planet in Planet.random(num=100000):
+for planet in Planet.random(num=32):
     print(planet.full_name)
