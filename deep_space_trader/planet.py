@@ -2,6 +2,8 @@ import copy
 import time
 import random
 
+from deep_space_trader.items import ItemCollection
+
 
 def random_planet_number():
     return random.randrange(2, 399)
@@ -95,6 +97,8 @@ class Planet(object):
         self._name = name
         self._number = number
         self._letter = letter
+        self._visited = False
+        self._items = ItemCollection()
 
     def neighbour(self):
         name = self._name
@@ -115,6 +119,18 @@ class Planet(object):
             number = random_planet_number()
 
         return Planet(name, number, letter)
+
+    @property
+    def items(self):
+        return self._items
+
+    @property
+    def visited(self):
+        return self._visited
+
+    @visited.setter
+    def visited(self, val):
+        self._visited = val
 
     @property
     def name(self):
@@ -138,6 +154,3 @@ class Planet(object):
             ret += " %s" % self._letter
 
         return ret[0].upper() + ret[1:]
-
-for planet in Planet.random(num=32):
-    print(planet.full_name)
