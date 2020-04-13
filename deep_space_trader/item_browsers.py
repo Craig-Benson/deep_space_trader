@@ -82,6 +82,8 @@ class PlayerItemBrowser(ItemBrowser):
         item1 = QtWidgets.QTableWidgetItem(itemname)
         item2 = QtWidgets.QTableWidgetItem(str(collection.items[itemname].quantity))
 
+        item2.setTextAlignment(QtCore.Qt.AlignHCenter)
+
         self.table.setItem(nextFreeRow, 0, item1)
         self.table.setItem(nextFreeRow, 1, item2)
 
@@ -126,6 +128,9 @@ class PlanetItemBrowser(ItemBrowser):
         item2 = QtWidgets.QTableWidgetItem(str(collection.items[itemname].quantity))
         item3 = QtWidgets.QTableWidgetItem(str(collection.items[itemname].value))
 
+        item2.setTextAlignment(QtCore.Qt.AlignHCenter)
+        item3.setTextAlignment(QtCore.Qt.AlignHCenter)
+
         self.table.setItem(nextFreeRow, 0, item1)
         self.table.setItem(nextFreeRow, 1, item2)
         self.table.setItem(nextFreeRow, 2, item3)
@@ -152,6 +157,8 @@ class WarehouseItemBrowser(ItemBrowser):
 
         item1 = QtWidgets.QTableWidgetItem(itemname)
         item2 = QtWidgets.QTableWidgetItem(str(collection.items[itemname].quantity))
+
+        item2.setTextAlignment(QtCore.Qt.AlignHCenter)
 
         self.table.setItem(nextFreeRow, 0, item1)
         self.table.setItem(nextFreeRow, 1, item2)

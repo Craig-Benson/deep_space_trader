@@ -1,8 +1,8 @@
 from PyQt5 import QtWidgets
 
 
-def yesNoDialog(parent, header="", msg="Are you sure?"):
-    reply = QtWidgets.QMessageBox.question(parent, header, msg,
+def yesNoDialog(parent, header="", message="Are you sure?"):
+    reply = QtWidgets.QMessageBox.question(parent, header, message,
                                            (QtWidgets.QMessageBox.Yes |
                                            QtWidgets.QMessageBox.No |
                                            QtWidgets.QMessageBox.Cancel),

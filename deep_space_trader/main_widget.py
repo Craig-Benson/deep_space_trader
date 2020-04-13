@@ -30,7 +30,8 @@ class MainWidget(QtWidgets.QDialog):
         middleColumnLayout = QtWidgets.QHBoxLayout()
 
         planetsLayout = QtWidgets.QHBoxLayout()
-        planetsLayout.addWidget(LocationBrowser(self))
+        self.locationBrowser = LocationBrowser(self)
+        planetsLayout.addWidget(self.locationBrowser)
         locationBrowserGroup = QtWidgets.QGroupBox("Planets")
         locationBrowserGroup.setAlignment(QtCore.Qt.AlignCenter)
         locationBrowserGroup.setLayout(planetsLayout)

@@ -62,10 +62,23 @@ class Planet(object):
         return Planet(name, number, letter)
 
     @classmethod
-    def random(cls, num=1):
-        if num == 1:
-            return cls._random_planet()
+    def _planet_exists(cls, planet, existing):
+        for p in existing:
+            if p.full_name == planet.full_name:
+                return True
 
+        return False
+
+    @classmethod
+    def _unique_planet(cls, existing):
+        new = cls._random_planet()
+        while cls._planet_exists(new, existing):
+            new = cls._random_planet()
+
+        return new
+
+    @classmethod
+    def random(cls, num=1, existing=[]):
         max_group_size = 4
         last_planet_with_letter = None
         group_size = None
@@ -83,7 +96,7 @@ class Planet(object):
                     last_planet_with_letter = None
                     group_size = None
 
-            new = cls._random_planet()
+            new = cls._unique_planet(existing)
             if new.letter is not None:
                 last_planet_with_letter = new
                 group_size = 1

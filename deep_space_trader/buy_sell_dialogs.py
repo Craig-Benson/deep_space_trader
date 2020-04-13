@@ -102,7 +102,7 @@ class Buy(BuySellDialog):
 
 class Sell(BuySellDialog):
     def __init__(self, parent, itemname):
-        self.value = parent.state.items.items[itemname].value
+        self.value = parent.state.current_planet.items.items[itemname].value
         self.quantity = parent.state.items.items[itemname].quantity
 
         super(Sell, self).__init__(parent, itemname, include_money=True)

@@ -1,3 +1,5 @@
+from deep_space_trader.utils import errorDialog, yesNoDialog
+
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 
@@ -31,6 +33,7 @@ class LocationBrowser(QtWidgets.QWidget):
         self.mainLayout.addLayout(self.buttonLayout)
         self.mainLayout.addWidget(self.table)
 
+        self.table.resizeColumnsToContents()
         self.update()
 
     def addRow(self, planet):
@@ -39,6 +42,8 @@ class LocationBrowser(QtWidgets.QWidget):
 
         item1 = QtWidgets.QTableWidgetItem(planet.full_name)
         item2 = QtWidgets.QTableWidgetItem("yes" if planet.visited else "no")
+
+        item2.setTextAlignment(QtCore.Qt.AlignHCenter)
 
         self.table.setItem(nextFreeRow, 0, item1)
         self.table.setItem(nextFreeRow, 1, item2)
@@ -50,11 +55,36 @@ class LocationBrowser(QtWidgets.QWidget):
 
     def update(self):
         self.populateTable()
-        self.table.resizeColumnsToContents()
         super(LocationBrowser, self).update()
 
     def travelButtonClicked(self):
-        pass
+        selectedRow = self.table.currentRow()
+        if selectedRow < 0:
+            errorDialog(self, message="Please select an planet to travel to first!")
+            return
+
+        planetname = self.table.item(selectedRow, 0).text()
+
+        if self.parent.state.current_planet.full_name == planetname:
+            errorDialog(self, message="You are already on %s!" % planetname)
+            return
+
+        if self.parent.state.money < self.parent.state.travel_cost:
+            errorDialog(self, message="You don't have enough money! (%d required)"
+                                      % self.parent.state.travel_cost)
+            return
+
+        accepted = yesNoDialog(self, "Travel", "Travel to %s? (cost is %d, you have %d)" %
+                                               (planetname, self.parent.state.travel_cost,
+                                                self.parent.state.money))
+        if not accepted:
+            return
+
+        self.parent.state.money -= self.parent.state.travel_cost
+        self.parent.state.change_current_planet(planetname)
+        self.parent.locationBrowser.update()
+        self.parent.planetItemBrowser.update()
+        self.parent.infoBar.update()
 
     def exploreButtonClicked(self):
         pass
