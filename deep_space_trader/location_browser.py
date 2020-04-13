@@ -6,9 +6,16 @@ class LocationBrowser(QtWidgets.QWidget):
         super(LocationBrowser, self).__init__(parent)
 
         self.parent = parent
-        self.mainLayout = QtWidgets.QHBoxLayout(self)
-        #self.button1 = QtWidgets.QPushButton()
-        #self.button1.setText("B1")
+        self.mainLayout = QtWidgets.QVBoxLayout(self)
+        self.buttonLayout = QtWidgets.QHBoxLayout()
+
+        self.travelButton = QtWidgets.QPushButton("Travel...")
+        self.travelButton.clicked.connect(self.travelButtonClicked)
+        self.buttonLayout.addWidget(self.travelButton)
+
+        self.exploreButton = QtWidgets.QPushButton("Explore...")
+        self.exploreButton.clicked.connect(self.exploreButtonClicked)
+        self.buttonLayout.addWidget(self.exploreButton)
 
         self.table = QtWidgets.QTableWidget()
         self.table.setColumnCount(2)
@@ -21,9 +28,10 @@ class LocationBrowser(QtWidgets.QWidget):
         header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
 
-        self.populateTable()
-
+        self.mainLayout.addLayout(self.buttonLayout)
         self.mainLayout.addWidget(self.table)
+
+        self.update()
 
     def addRow(self, planet):
         nextFreeRow = self.table.rowCount()
@@ -40,3 +48,13 @@ class LocationBrowser(QtWidgets.QWidget):
         for planet in self.parent.state.planets:
             self.addRow(planet)
 
+    def update(self):
+        self.populateTable()
+        self.table.resizeColumnsToContents()
+        super(LocationBrowser, self).update()
+
+    def travelButtonClicked(self):
+        pass
+
+    def exploreButtonClicked(self):
+        pass

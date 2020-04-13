@@ -124,6 +124,10 @@ class Planet(object):
     def items(self):
         return self._items
 
+    @items.setter
+    def items(self, val):
+        self._items = val
+
     @property
     def visited(self):
         return self._visited

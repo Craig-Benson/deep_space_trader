@@ -7,6 +7,14 @@ class InfoBar(QtWidgets.QWidget):
 
         self.parent = parent
 
+        planetLayout = QtWidgets.QHBoxLayout()
+        self.planetLabel = QtWidgets.QLabel("")
+        self.planetLabel.setAlignment(QtCore.Qt.AlignCenter)
+        planetLayout.addWidget(self.planetLabel)
+        planetGroup = QtWidgets.QGroupBox("Current planet")
+        planetGroup.setAlignment(QtCore.Qt.AlignCenter)
+        planetGroup.setLayout(planetLayout)
+
         moneyLayout = QtWidgets.QHBoxLayout()
         self.moneyLabel = QtWidgets.QLabel("")
         self.moneyLabel.setAlignment(QtCore.Qt.AlignCenter)
@@ -32,12 +40,14 @@ class InfoBar(QtWidgets.QWidget):
         capacityGroup.setLayout(capacityLayout)
 
         self.mainLayout = QtWidgets.QHBoxLayout(self)
+        self.mainLayout.addWidget(planetGroup)
         self.mainLayout.addWidget(moneyGroup)
         self.mainLayout.addWidget(planetCountGroup)
         self.mainLayout.addWidget(capacityGroup)
         self.update()
 
     def update(self):
+        self.planetLabel.setText(self.parent.state.current_planet.full_name)
         self.moneyLabel.setText(str(self.parent.state.money))
         self.planetCountLabel.setText(str(len(self.parent.state.planets)))
         self.capacityLabel.setText(str(self.parent.state.capacity))
