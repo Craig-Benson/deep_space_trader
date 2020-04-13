@@ -1,3 +1,5 @@
+from deep_space_trader.buy_sell_dialogs import Buy
+
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 
@@ -19,6 +21,7 @@ class ItemBrowser(QtWidgets.QWidget):
         self.mainLayout.addLayout(self.buttonLayout)
         self.mainLayout.addWidget(self.table)
 
+        self.table.resizeColumnsToContents()
         self.update()
 
     def setupHeader(self):
@@ -30,7 +33,6 @@ class ItemBrowser(QtWidgets.QWidget):
 
     def update(self):
         self.populateTable()
-        self.table.resizeColumnsToContents()
         super(ItemBrowser, self).update()
 
     def add_button(self, text, on_click):
@@ -94,7 +96,15 @@ class PlanetItemBrowser(ItemBrowser):
         header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
 
     def buyButtonClicked(self):
-        pass
+        selectedRow = self.table.currentRow()
+        if selectedRow < 0:
+            return
+
+        itemname = self.table.item(selectedRow, 0).text()
+
+        dialog = Buy(self.parent, itemname)
+        dialog.setWindowModality(QtCore.Qt.ApplicationModal)
+        dialog.exec_()
 
     def addRow(self, itemname):
         nextFreeRow = self.table.rowCount()

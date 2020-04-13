@@ -1,3 +1,4 @@
+import copy
 import random
 
 
@@ -72,15 +73,26 @@ class ItemCollection(object):
     def __init__(self, items=[]):
         self.items = {}
 
-        if items:
-            self.add_items(items)
-
-    def add_items(self, items):
         for item in items:
-            if item.type.name in self.items:
-                self.items[item.type.name].quantity += item.quantity
-            else:
+            if item.type.name not in self.items:
                 self.items[item.type.name] = item
+
+            self.items[item.type.name].quantity += item.quantity
+
+    def add_items(self, itemname, other, quantity=1):
+        if itemname not in other.items:
+            return
+
+        if itemname not in self.items:
+            self.items[itemname] = copy.deepcopy(other.items[itemname])
+            self.items[itemname].quantity = 0
+
+        num = min(quantity, other.items[itemname].quantity)
+        self.items[itemname].quantity += num
+        other.items[itemname].quantity -= num
+
+        if other.items[itemname].quantity == 0:
+            del other.items[itemname]
 
     def count(self):
         ret = 0

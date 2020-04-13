@@ -37,7 +37,8 @@ class MainWidget(QtWidgets.QDialog):
         middleColumnLayout.addWidget(locationBrowserGroup)
 
         playerItemsLayout = QtWidgets.QHBoxLayout()
-        playerItemsLayout.addWidget(PlayerItemBrowser(self))
+        self.playerItemBrowser = PlayerItemBrowser(self)
+        playerItemsLayout.addWidget(self.playerItemBrowser)
         self.playerItemBrowserGroup = QtWidgets.QGroupBox()
         self.playerItemBrowserGroup.setAlignment(QtCore.Qt.AlignCenter)
         self.playerItemBrowserGroup.setLayout(playerItemsLayout)
@@ -45,7 +46,8 @@ class MainWidget(QtWidgets.QDialog):
         middleColumnLayout.addWidget(self.playerItemBrowserGroup)
 
         infoLayout = QtWidgets.QHBoxLayout()
-        infoLayout.addWidget(InfoBar(self))
+        self.infoBar = InfoBar(self)
+        infoLayout.addWidget(self.infoBar)
         infoGroup = QtWidgets.QGroupBox("Information")
         infoGroup.setAlignment(QtCore.Qt.AlignCenter)
         infoGroup.setLayout(infoLayout)
@@ -53,14 +55,16 @@ class MainWidget(QtWidgets.QDialog):
         lastColumnLayout = QtWidgets.QHBoxLayout()
 
         planetItemsLayout = QtWidgets.QHBoxLayout()
-        planetItemsLayout.addWidget(PlanetItemBrowser(self))
+        self.planetItemBrowser = PlanetItemBrowser(self)
+        planetItemsLayout.addWidget(self.planetItemBrowser)
         planetItemsBrowserGroup = QtWidgets.QGroupBox("Items on current planet")
         planetItemsBrowserGroup.setAlignment(QtCore.Qt.AlignCenter)
         planetItemsBrowserGroup.setLayout(planetItemsLayout)
         lastColumnLayout.addWidget(planetItemsBrowserGroup)
 
         warehouseItemsLayout = QtWidgets.QHBoxLayout()
-        warehouseItemsLayout.addWidget(WarehouseItemBrowser(self))
+        self.warehouseItemBrowser = WarehouseItemBrowser(self)
+        warehouseItemsLayout.addWidget(self.warehouseItemBrowser)
         warehouseItemsBrowserGroup = QtWidgets.QGroupBox("Items in warehouse")
         warehouseItemsBrowserGroup.setAlignment(QtCore.Qt.AlignCenter)
         warehouseItemsBrowserGroup.setLayout(warehouseItemsLayout)
@@ -93,6 +97,3 @@ class MainWidget(QtWidgets.QDialog):
             else:
                 if self.warningBeforeQuit():
                     QtWidgets.qApp.quit()
-
-
-        self.enableSelectionDependentItems()

@@ -6,7 +6,7 @@ PLANET_STEP = 10
 class State(object):
     def __init__(self, initial_planets=12):
         self.planets = []
-        self.money = 0
+        self.money = 1000
         self.capacity = 100
         self.items = ItemCollection()
         self.warehouse = ItemCollection()
