@@ -19,9 +19,12 @@ class State(object):
         self.current_planet = self.planets[0]
         self.current_planet.visited = True
 
+        self.previous_planet = None
+
     def change_current_planet(self, planetname):
         for p in self.planets:
             if p.full_name == planetname:
+                self.previous_planet = self.current_planet
                 self.current_planet = p
                 self.current_planet.visited = True
                 return

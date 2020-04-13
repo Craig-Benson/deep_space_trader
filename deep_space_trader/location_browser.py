@@ -19,6 +19,10 @@ class LocationBrowser(QtWidgets.QWidget):
         self.exploreButton.clicked.connect(self.exploreButtonClicked)
         self.buttonLayout.addWidget(self.exploreButton)
 
+        self.previousButton = QtWidgets.QPushButton("Travel to previous")
+        self.previousButton.clicked.connect(self.previousButtonClicked)
+        self.buttonLayout.addWidget(self.previousButton)
+
         self.table = QtWidgets.QTableWidget()
         self.table.setColumnCount(2)
         self.table.setHorizontalHeaderLabels(['Planet', 'visited?'])
@@ -57,18 +61,7 @@ class LocationBrowser(QtWidgets.QWidget):
         self.populateTable()
         super(LocationBrowser, self).update()
 
-    def travelButtonClicked(self):
-        selectedRow = self.table.currentRow()
-        if selectedRow < 0:
-            errorDialog(self, message="Please select an planet to travel to first!")
-            return
-
-        planetname = self.table.item(selectedRow, 0).text()
-
-        if self.parent.state.current_planet.full_name == planetname:
-            errorDialog(self, message="You are already on %s!" % planetname)
-            return
-
+    def travelToPlanet(self, planetname):
         if self.parent.state.money < self.parent.state.travel_cost:
             errorDialog(self, message="You don't have enough money! (%d required)"
                                       % self.parent.state.travel_cost)
@@ -85,6 +78,28 @@ class LocationBrowser(QtWidgets.QWidget):
         self.parent.locationBrowser.update()
         self.parent.planetItemBrowser.update()
         self.parent.infoBar.update()
+
+
+    def travelButtonClicked(self):
+        selectedRow = self.table.currentRow()
+        if selectedRow < 0:
+            errorDialog(self, message="Please select an planet to travel to first!")
+            return
+
+        planetname = self.table.item(selectedRow, 0).text()
+
+        if self.parent.state.current_planet.full_name == planetname:
+            errorDialog(self, message="You are already on %s!" % planetname)
+            return
+
+        self.travelToPlanet(planetname)
+
+    def previousButtonClicked(self):
+        if self.parent.state.previous_planet is None:
+            errorDialog(self, message="No previous planet to travel to!")
+            return
+
+        self.travelToPlanet(self.parent.state.previous_planet.full_name)
 
     def exploreButtonClicked(self):
         pass
