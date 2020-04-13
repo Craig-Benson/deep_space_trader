@@ -15,7 +15,7 @@ def errorDialog(parent, heading="Error", message="Unrecoverable error occurred")
     msg.setIcon(QtWidgets.QMessageBox.Critical)
     msg.setText(heading)
     msg.setInformativeText(message)
-    msg.setWindowTitle("Critical error!")
+    msg.setWindowTitle("Error")
     msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
     msg.exec_()
 

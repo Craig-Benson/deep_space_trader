@@ -1,4 +1,5 @@
-from deep_space_trader.buy_sell_dialogs import Buy
+from deep_space_trader.buy_sell_dialogs import Buy, Sell
+from deep_space_trader.utils import errorDialog
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
@@ -56,7 +57,16 @@ class PlayerItemBrowser(ItemBrowser):
         self.add_button("Go to store", self.storeButtonClicked)
 
     def sellButtonClicked(self):
-         pass
+        selectedRow = self.table.currentRow()
+        if selectedRow < 0:
+            errorDialog(self, message="Please select an item to sell first!")
+            return
+
+        itemname = self.table.item(selectedRow, 0).text()
+
+        dialog = Sell(self.parent, itemname)
+        dialog.setWindowModality(QtCore.Qt.ApplicationModal)
+        dialog.exec_()
 
     def warehouseButtonClicked(self):
         pass
@@ -98,6 +108,7 @@ class PlanetItemBrowser(ItemBrowser):
     def buyButtonClicked(self):
         selectedRow = self.table.currentRow()
         if selectedRow < 0:
+            errorDialog(self, message="Please select an item to buy first!")
             return
 
         itemname = self.table.item(selectedRow, 0).text()

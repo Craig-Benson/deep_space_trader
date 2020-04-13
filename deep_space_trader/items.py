@@ -25,9 +25,9 @@ rare_item_types = [
     ItemType("antimatter", 185)
 ]
 
-common_quantity_range = (500, 2000)
-medium_rare_quantity_range = (100, 500)
-rare_quantity_range = (10, 50)
+common_quantity_range = (10, 100)
+medium_rare_quantity_range = (1, 20)
+rare_quantity_range = (1, 5)
 
 
 class Items(object):
