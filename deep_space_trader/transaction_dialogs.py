@@ -1,9 +1,9 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 
-class BuySellDialog(QtWidgets.QDialog):
+class TransactionDialog(QtWidgets.QDialog):
     def __init__(self, parent, itemname, include_money=True):
-        super(BuySellDialog, self).__init__(parent=parent)
+        super(TransactionDialog, self).__init__(parent=parent)
 
         self.parent = parent
         self.itemName = itemname
@@ -54,6 +54,7 @@ class BuySellDialog(QtWidgets.QDialog):
         self.acceptTransaction(int(self.spinbox.value()))
         self.parent.playerItemBrowser.update()
         self.parent.planetItemBrowser.update()
+        self.parent.warehouseItemBrowser.update()
         self.parent.infoBar.update()
         self.accept()
 
@@ -70,7 +71,7 @@ class BuySellDialog(QtWidgets.QDialog):
         raise NotImplementedError()
 
 
-class Buy(BuySellDialog):
+class Buy(TransactionDialog):
     def __init__(self, parent, itemname):
         self.value = parent.state.current_planet.items.items[itemname].value
         self.quantity = parent.state.current_planet.items.items[itemname].quantity
@@ -100,12 +101,12 @@ class Buy(BuySellDialog):
         return self.parent.state.current_planet.items
 
 
-class Sell(BuySellDialog):
+class Sell(TransactionDialog):
     def __init__(self, parent, itemname):
         self.value = parent.state.current_planet.items.items[itemname].value
         self.quantity = parent.state.items.items[itemname].quantity
 
-        super(Sell, self).__init__(parent, itemname, include_money=True)
+        super(Sell, self).__init__(parent, itemname, include_money=False)
         self.description.setText("How much %s do you want to sell?" % self.itemName)
         self.acceptButton.setText("Sell")
 
@@ -119,6 +120,50 @@ class Sell(BuySellDialog):
     def valueChanged(self):
         self.spinboxLabel.setText("Sell quantity (gain: %s)"
                                   % (self.spinbox.value() * self.value))
+
+    def maximumQuantity(self):
+        return self.quantity
+
+
+class PlayerToWarehouse(TransactionDialog):
+    def __init__(self, parent, itemname):
+        self.quantity = parent.state.items.items[itemname].quantity
+
+        super(PlayerToWarehouse, self).__init__(parent, itemname, include_money=False)
+        self.description.setText("How much %s do you want to move to the warehouse?"
+                                 % self.itemName)
+
+        self.acceptButton.setText("Move")
+
+    def acceptTransaction(self, quantity):
+        self.parent.state.warehouse.add_items(self.itemName,
+                                              self.parent.state.items,
+                                              quantity)
+
+    def valueChanged(self):
+        self.spinboxLabel.setText("Move quantity")
+
+    def maximumQuantity(self):
+        return self.quantity
+
+
+class WarehouseToPlayer(TransactionDialog):
+    def __init__(self, parent, itemname):
+        self.quantity = parent.state.warehouse.items[itemname].quantity
+
+        super(WarehouseToPlayer, self).__init__(parent, itemname, include_money=False)
+        self.description.setText("How much %s do you want to retrieve?"
+                                 % self.itemName)
+
+        self.acceptButton.setText("Move")
+
+    def acceptTransaction(self, quantity):
+        self.parent.state.items.add_items(self.itemName,
+                                          self.parent.state.warehouse,
+                                          quantity)
+
+    def valueChanged(self):
+        self.spinboxLabel.setText("Move quantity")
 
     def maximumQuantity(self):
         return self.quantity

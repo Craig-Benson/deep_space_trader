@@ -1,4 +1,4 @@
-from deep_space_trader.buy_sell_dialogs import Buy, Sell
+from deep_space_trader.transaction_dialogs import Buy, Sell, PlayerToWarehouse, WarehouseToPlayer
 from deep_space_trader.utils import errorDialog
 
 from PyQt5 import QtWidgets, QtCore, QtGui
@@ -69,7 +69,15 @@ class PlayerItemBrowser(ItemBrowser):
         dialog.exec_()
 
     def warehouseButtonClicked(self):
-        pass
+        selectedRow = self.table.currentRow()
+        if selectedRow < 0:
+            errorDialog(self, message="Please select an item first!")
+            return
+
+        itemname = self.table.item(selectedRow, 0).text()
+        dialog = PlayerToWarehouse(self.parent, itemname)
+        dialog.setWindowModality(QtCore.Qt.ApplicationModal)
+        dialog.exec_()
 
     def storeButtonClicked(self):
         pass
@@ -148,7 +156,16 @@ class WarehouseItemBrowser(ItemBrowser):
         self.add_button("Retrieve from warehouse", self.removeButtonClicked)
 
     def removeButtonClicked(self):
-        pass
+        selectedRow = self.table.currentRow()
+        if selectedRow < 0:
+            errorDialog(self, message="Please select an item first!")
+            return
+
+        itemname = self.table.item(selectedRow, 0).text()
+        dialog = WarehouseToPlayer(self.parent, itemname)
+        dialog.setWindowModality(QtCore.Qt.ApplicationModal)
+        dialog.exec_()
+
 
     def addRow(self, itemname):
         nextFreeRow = self.table.rowCount()
