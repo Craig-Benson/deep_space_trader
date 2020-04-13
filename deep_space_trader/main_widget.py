@@ -31,7 +31,7 @@ class MainWidget(QtWidgets.QDialog):
 
         planetsLayout = QtWidgets.QHBoxLayout()
         planetsLayout.addWidget(LocationBrowser(self))
-        locationBrowserGroup = QtWidgets.QGroupBox("planets")
+        locationBrowserGroup = QtWidgets.QGroupBox("Planets")
         locationBrowserGroup.setAlignment(QtCore.Qt.AlignCenter)
         locationBrowserGroup.setLayout(planetsLayout)
         middleColumnLayout.addWidget(locationBrowserGroup)
@@ -82,18 +82,9 @@ class MainWidget(QtWidgets.QDialog):
                                              self.state.capacity))
 
     def warningBeforeQuit(self):
-        return yesNoDialog(self, "Are you sure?", "Are you sure you want to quit?"
-                                 " You will lose any unsaved data.")
+        return yesNoDialog(self, "Are you sure?", "Are you sure you want to quit?")
 
     def keyPressEvent(self, event):
         if event.key() == QtCore.Qt.Key_Escape:
-            # If we're in the middle of a move/copy operation, escape key should cancel it
-            if self.tracking_tile_button_enter:
-                self.eraseSelectionMask()
-                self.tracking_tile_button_enter = False
-                self.group_mask = []
-
-            # Otherwise, escape key should close the main window (after a warning)
-            else:
-                if self.warningBeforeQuit():
-                    QtWidgets.qApp.quit()
+            if self.warningBeforeQuit():
+                QtWidgets.qApp.quit()
