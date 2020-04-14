@@ -84,7 +84,7 @@ class Buy(TransactionDialog):
     def acceptTransaction(self, quantity):
         self.parent.state.items.add_items(self.itemName,
                                           self.parent.state.current_planet.items,
-                                          quantity)
+                                          quantity, delete_empty=False)
 
         self.parent.state.money -= self.value * quantity
 

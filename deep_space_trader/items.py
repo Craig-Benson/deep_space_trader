@@ -79,7 +79,7 @@ class ItemCollection(object):
 
             self.items[item.type.name].quantity += item.quantity
 
-    def add_items(self, itemname, other, quantity=1):
+    def add_items(self, itemname, other, quantity=1, delete_empty=True):
         if itemname not in other.items:
             return
 
@@ -91,7 +91,7 @@ class ItemCollection(object):
         self.items[itemname].quantity += num
         other.items[itemname].quantity -= num
 
-        if other.items[itemname].quantity == 0:
+        if (other.items[itemname].quantity == 0) and delete_empty:
             del other.items[itemname]
 
     def count(self):

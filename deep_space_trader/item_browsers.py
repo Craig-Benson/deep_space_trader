@@ -16,6 +16,7 @@ class ItemBrowser(QtWidgets.QWidget):
         self.table.verticalHeader().setVisible(False)
         self.table.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
         self.table.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.table.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
         self.setupHeader()
         self.populateTable()
@@ -63,6 +64,10 @@ class PlayerItemBrowser(ItemBrowser):
             return
 
         itemname = self.table.item(selectedRow, 0).text()
+        if itemname not in self.parent.state.current_planet.items.items:
+            errorDialog(self, message="%s is not currently in demand on %s"
+                                      % (itemname, self.parent.state.current_planet.full_name))
+            return
 
         dialog = Sell(self.parent, itemname)
         dialog.setWindowModality(QtCore.Qt.ApplicationModal)
@@ -118,10 +123,16 @@ class PlanetItemBrowser(ItemBrowser):
     def buyButtonClicked(self):
         selectedRow = self.table.currentRow()
         if selectedRow < 0:
-            errorDialog(self, message="Please select an item to buy first!")
+            errorDialog(self, "No item selected",
+                        message="Please select an item to buy first!")
             return
 
         itemname = self.table.item(selectedRow, 0).text()
+        if self.parent.state.current_planet.items.items[itemname].quantity == 0:
+            errorDialog(self, "None available",
+                        message="%s has no %s left to sell" %
+                        (self.parent.state.current_planet.full_name, itemname))
+            return
 
         dialog = Buy(self.parent, itemname)
         dialog.setWindowModality(QtCore.Qt.ApplicationModal)
