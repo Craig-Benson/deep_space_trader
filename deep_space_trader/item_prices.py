@@ -28,8 +28,9 @@ class PricesTable(QtWidgets.QDialog):
         self.table.setHorizontalHeaderLabels(['Item type', 'Base price'])
         self.table.verticalHeader().setVisible(False)
         self.table.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
-        self.table.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.table.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
         self.table.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+        self.table.setFocusPolicy(QtCore.Qt.NoFocus)
 
         header = self.table.horizontalHeader()
         header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
