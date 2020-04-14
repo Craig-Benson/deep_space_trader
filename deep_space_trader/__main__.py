@@ -35,11 +35,23 @@ class MainWindow(QtWidgets.QMainWindow):
         self.widget = MainWidget(self.primary_screen, self)
         self.setCentralWidget(self.widget)
 
+        self.quitAction = QtWidgets.QAction("Quit game", self)
+        self.quitAction.setShortcut("Ctrl+q")
+        self.quitAction.setStatusTip("Stop playing the game")
+        self.quitAction.triggered.connect(self.widget.quit)
+
+        self.pricesAction = QtWidgets.QAction("Material prices", self)
+        self.pricesAction.setShortcut("Ctrl+p")
+        self.pricesAction.setStatusTip("Show base prices for tradeable items")
+        self.pricesAction.triggered.connect(self.widget.showPrices)
+
         # Build menu bar
         menu = self.menuBar()
         fileMenu = menu.addMenu("File")
+        fileMenu.addAction(self.quitAction)
 
         helpMenu = menu.addMenu("Help")
+        helpMenu.addAction(self.pricesAction)
 
     def closeEvent(self, event):
         if self.widget.warningBeforeQuit():

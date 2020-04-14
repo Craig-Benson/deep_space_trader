@@ -10,6 +10,7 @@ from deep_space_trader.utils import yesNoDialog, errorDialog
 from deep_space_trader.game_state import State
 from deep_space_trader.location_browser import LocationBrowser
 from deep_space_trader.item_browsers import PlayerItemBrowser, PlanetItemBrowser, WarehouseItemBrowser
+from deep_space_trader.item_prices import PricesTable
 from deep_space_trader.information_bar import InfoBar
 
 
@@ -82,10 +83,18 @@ class MainWidget(QtWidgets.QDialog):
                                              (self.state.items.count(),
                                              self.state.capacity))
 
+    def showPrices(self):
+        dialog = PricesTable(self)
+        dialog.setWindowModality(QtCore.Qt.ApplicationModal)
+        dialog.exec_()
+
     def warningBeforeQuit(self):
         return yesNoDialog(self, "Are you sure?", "Are you sure you want to quit?")
 
+    def quit(self):
+        if self.warningBeforeQuit():
+            QtWidgets.qApp.quit()
+
     def keyPressEvent(self, event):
         if event.key() == QtCore.Qt.Key_Escape:
-            if self.warningBeforeQuit():
-                QtWidgets.qApp.quit()
+            self.quit()
