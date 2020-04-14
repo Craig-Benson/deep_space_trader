@@ -28,9 +28,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def initUi(self):
         scriptDir = os.path.dirname(os.path.realpath(__file__))
         imageDir = os.path.join(scriptDir, 'images')
-        #self.iconPath = os.path.join(imageDir, 'logo.png')
-        #self.compassPath = os.path.join(imageDir, 'compass.png')
-        #self.setWindowIcon(QtGui.QIcon(self.iconPath))
+        self.iconPath = os.path.join(imageDir, 'icon.png')
+        self.compassPath = os.path.join(imageDir, 'compass.png')
+        self.setWindowIcon(QtGui.QIcon(self.iconPath))
 
         self.widget = MainWidget(self.primary_screen, self)
         self.setCentralWidget(self.widget)
