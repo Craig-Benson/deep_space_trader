@@ -9,25 +9,31 @@ class ItemType(object):
 
 
 common_item_types = [
+    ItemType("tin", 10),
     ItemType("steel", 10),
     ItemType("copper", 15),
-    ItemType("silver", 15)
+    ItemType("silver", 15),
 ]
 
 medium_rare_item_types = [
     ItemType("gold", 20),
     ItemType("silicon", 25),
     ItemType("uranium", 35),
-    ItemType("plutonium", 40),
+    ItemType("diamond", 50),
+    ItemType("tritium", 75),
+    ItemType("platinum", 75),
+    ItemType("plutonium", 90)
 ]
 
 rare_item_types = [
-    ItemType("antimatter", 185)
+    ItemType("antimatter", 200),
+    ItemType("jade stone", 180)
 ]
 
-common_quantity_range = (10, 100)
-medium_rare_quantity_range = (1, 20)
-rare_quantity_range = (1, 5)
+
+common_quantity_range = (100, 1000)
+medium_rare_quantity_range = (100, 500)
+rare_quantity_range = (10, 100)
 
 
 class Items(object):
@@ -57,7 +63,7 @@ class Items(object):
         else:
             # otherwise, a common item
             choices = common_item_types
-            quantity_range = rare_quantity_range
+            quantity_range = common_quantity_range
 
         itemtype = random.choice(choices)
         quantity = random.randrange(quantity_range[0], quantity_range[1] + 1)
