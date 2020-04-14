@@ -1,4 +1,6 @@
-from deep_space_trader.utils import errorDialog, yesNoDialog
+import random
+
+from deep_space_trader.utils import errorDialog, yesNoDialog, infoDialog
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
@@ -103,4 +105,28 @@ class LocationBrowser(QtWidgets.QWidget):
         self.travelToPlanet(self.parent.state.previous_planet.full_name)
 
     def exploreButtonClicked(self):
-        pass
+        if self.parent.state.money < self.parent.state.exploration_cost:
+            errorDialog(self, message="Not enough money to explore (cost: %d)"
+                        % self.parent.state.exploration_cost)
+            return
+
+
+        ret = yesNoDialog(self, "Explore?", "Commence exploration for new undiscovered "
+                                            "planets with intelligent life? (cost: %d)"
+                                            % self.parent.state.exploration_cost)
+
+        if not ret:
+            return
+
+        num_new = random.randrange(2, 12)
+        self.parent.state.expand_planets(num_new)
+
+        new_names = [p.full_name for p in self.parent.state.planets[-num_new:]]
+        name_listing = '<br>'.join(new_names)
+
+        infoDialog(self, "%d new planets with intelligent life have "
+                         "been discovered!<br><br>%s" % (num_new, name_listing))
+
+        self.parent.state.money -= self.parent.state.exploration_cost
+        self.parent.infoBar.update()
+        self.update()

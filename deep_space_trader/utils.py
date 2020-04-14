@@ -27,4 +27,3 @@ def infoDialog(parent, heading="", message=""):
     msg.setWindowTitle("Information")
     msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
     msg.exec_()
-

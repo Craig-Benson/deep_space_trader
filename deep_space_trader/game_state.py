@@ -10,6 +10,7 @@ class State(object):
         self.planets = []
         self.money = 1000
         self.travel_cost = 100
+        self.exploration_cost = 1000
         self.capacity = 100
         self.items = ItemCollection()
         self.warehouse = ItemCollection()
@@ -38,4 +39,4 @@ class State(object):
             new.items = ItemCollection.random(value_multiplier=self.level,
                                               quantity_multiplier=self.level)
 
-        self.planets.extend(new_planets)
+        self.planets+= new_planets
