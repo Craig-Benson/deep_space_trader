@@ -1,4 +1,5 @@
 from deep_space_trader.transaction_dialogs import Buy, Sell, PlayerToWarehouse, WarehouseToPlayer
+from deep_space_trader.store import Store
 from deep_space_trader.utils import errorDialog
 
 from PyQt5 import QtWidgets, QtCore, QtGui
@@ -85,7 +86,9 @@ class PlayerItemBrowser(ItemBrowser):
         dialog.exec_()
 
     def storeButtonClicked(self):
-        pass
+        dialog = Store(self.parent)
+        dialog.setWindowModality(QtCore.Qt.ApplicationModal)
+        dialog.exec_()
 
     def addRow(self, itemname):
         nextFreeRow = self.table.rowCount()

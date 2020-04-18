@@ -12,6 +12,7 @@ class State(object):
         self.travel_cost = 100
         self.exploration_cost = 1000
         self.capacity = 100
+        self.store_items = []
         self.items = ItemCollection()
         self.warehouse = ItemCollection()
         self.level = 1
