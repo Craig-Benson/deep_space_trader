@@ -9,6 +9,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from deep_space_trader.utils import yesNoDialog, errorDialog
 from deep_space_trader.game_state import State
 from deep_space_trader.location_browser import LocationBrowser
+from deep_space_trader.top_button_bar import ButtonBar
 from deep_space_trader.item_browsers import PlayerItemBrowser, PlanetItemBrowser, WarehouseItemBrowser
 from deep_space_trader.item_prices import PricesTable
 from deep_space_trader.information_bar import InfoBar
@@ -23,10 +24,15 @@ def _silent_checkbox_set(checkbox, value, handler):
 class MainWidget(QtWidgets.QDialog):
     def __init__(self, primaryScreen, mainWindow):
         super(MainWidget, self).__init__()
-
         self.main = mainWindow
         self.primary_screen = primaryScreen
         self.state = State()
+
+        QtWidgets.qApp.setStyle('Windows')
+        font = QtWidgets.qApp.font()
+        font.setPointSize(12)
+        font.setFamily('monospace')
+        QtWidgets.qApp.setFont(font)
 
         middleColumnLayout = QtWidgets.QHBoxLayout()
 
@@ -54,6 +60,13 @@ class MainWidget(QtWidgets.QDialog):
         infoGroup.setAlignment(QtCore.Qt.AlignCenter)
         infoGroup.setLayout(infoLayout)
 
+        buttonLayout = QtWidgets.QHBoxLayout()
+        self.buttonBar = ButtonBar(self)
+        buttonLayout.addWidget(self.buttonBar)
+        buttonGroup = QtWidgets.QGroupBox()
+        buttonGroup.setAlignment(QtCore.Qt.AlignCenter)
+        buttonGroup.setLayout(buttonLayout)
+
         lastColumnLayout = QtWidgets.QHBoxLayout()
 
         planetItemsLayout = QtWidgets.QHBoxLayout()
@@ -75,6 +88,7 @@ class MainWidget(QtWidgets.QDialog):
 
         self.mainLayout = QtWidgets.QVBoxLayout(self)
         self.mainLayout.addWidget(infoGroup)
+        self.mainLayout.addWidget(buttonGroup)
         self.mainLayout.addLayout(middleColumnLayout)
         self.mainLayout.addLayout(lastColumnLayout)
 
@@ -98,3 +112,6 @@ class MainWidget(QtWidgets.QDialog):
     def keyPressEvent(self, event):
         if event.key() == QtCore.Qt.Key_Escape:
             self.quit()
+
+    def sizeHint(self):
+        return QtCore.QSize(1920, 1080)
