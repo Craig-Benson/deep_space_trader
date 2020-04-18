@@ -1,5 +1,7 @@
+import copy
 import random
 from deep_space_trader.utils import errorDialog, infoDialog, yesNoDialog
+from deep_space_trader import constants as const
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
@@ -13,7 +15,7 @@ class StoreItem(object):
 
 class PlanetExploration(StoreItem):
     def __init__(self):
-        price = 1000
+        price = const.PLANET_EXPLORATION_COST
         name = "Planet discovery expedition"
         desc = (
             "Allows you to mount an expedition to discover new planets"
@@ -24,12 +26,12 @@ class PlanetExploration(StoreItem):
     def use(self, parent):
         ret = yesNoDialog(parent, "Explore?", "Commence exploration for new undiscovered "
                                             "planets with intelligent life? (cost: %d)"
-                                            % parent.state.exploration_cost)
+                                            % self.price)
 
         if not ret:
             return
 
-        num_new = random.randrange(2, 12)
+        num_new = random.randrange(*const.PLANET_DISCOVERY_RANGE)
         parent.state.expand_planets(num_new)
 
         new_names = [p.full_name for p in parent.state.planets[-num_new:]]
@@ -44,7 +46,7 @@ class PlanetExploration(StoreItem):
 
 class PlanetDestruction(StoreItem):
     def __init__(self):
-        price = 1000
+        price = const.PLANET_DESTRUCTION_COST
         name = "Planet destruction kit"
         desc = (
             "Allows you to destroy a planet and gain all of its resources"
@@ -155,7 +157,7 @@ class Store(QtWidgets.QDialog):
             return
 
         self.parent.state.money -= item.price
-        self.parent.state.store_items.append(item)
+        self.parent.state.store_items.append(copy.deepcopy(item))
         self.updateMoneyLabel()
         self.parent.infoBar.update()
 

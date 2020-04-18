@@ -1,6 +1,8 @@
 import copy
 import random
 
+from deep_space_trader import constants as const
+
 
 class ItemType(object):
     def __init__(self, name, base_value):
@@ -9,31 +11,26 @@ class ItemType(object):
 
 
 common_item_types = [
-    ItemType("tin", 10),
-    ItemType("steel", 10),
-    ItemType("copper", 15),
-    ItemType("silver", 15),
+    ItemType("tin", const.PRICE_TIN),
+    ItemType("steel", const.PRICE_STEEL),
+    ItemType("copper", const.PRICE_COPPER),
+    ItemType("silver", const.PRICE_SILVER),
 ]
 
 medium_rare_item_types = [
-    ItemType("gold", 20),
-    ItemType("silicon", 25),
-    ItemType("uranium", 35),
-    ItemType("diamond", 50),
-    ItemType("tritium", 75),
-    ItemType("platinum", 75),
-    ItemType("plutonium", 90)
+    ItemType("gold", const.PRICE_GOLD),
+    ItemType("silicon", const.PRICE_SILICON),
+    ItemType("uranium", const.PRICE_URANIUM),
+    ItemType("diamond", const.PRICE_DIAMOND),
+    ItemType("tritium", const.PRICE_TRITIUM),
+    ItemType("platinum", const.PRICE_PLATINUM),
+    ItemType("plutonium", const.PRICE_PLUTONIUM)
 ]
 
 rare_item_types = [
-    ItemType("antimatter", 200),
-    ItemType("jade stone", 180)
+    ItemType("jade stone", const.PRICE_JADESTONE),
+    ItemType("antimatter", const.PRICE_ANTIMATTER)
 ]
-
-
-common_quantity_range = (100, 1000)
-medium_rare_quantity_range = (100, 500)
-rare_quantity_range = (10, 100)
 
 
 class Items(object):
@@ -55,15 +52,15 @@ class Items(object):
         if prob >= 95:
             # 5% chance of a rare item
             choices = rare_item_types
-            quantity_range = rare_quantity_range
+            quantity_range = const.RARE_QUANTITY_RANGE
         elif prob >= 75:
             # 25% chance of a rare or medium rare item
             choices = medium_rare_item_types
-            quantity_range = medium_rare_quantity_range
+            quantity_range = const.MEDIUM_RARE_QUANTITY_RANGE
         else:
             # otherwise, a common item
             choices = common_item_types
-            quantity_range = common_quantity_range
+            quantity_range = const.COMMON_QUANTITY_RANGE
 
         itemtype = random.choice(choices)
         quantity = random.randrange(quantity_range[0], quantity_range[1] + 1)

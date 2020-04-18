@@ -124,7 +124,7 @@ class Planet(object):
         if number:
             return Planet(name, number + 1, letter)
 
-        if random.randrange(0, 100)< 50:
+        if random.randrange(0, 100) < 50:
             # Add letter
             letter = random_planet_letter()
         else:

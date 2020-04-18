@@ -2,16 +2,15 @@ import random
 
 from deep_space_trader.planet import Planet
 from deep_space_trader.items import ItemCollection
+from deep_space_trader import constants as const
 
-PLANET_STEP = 10
 
 class State(object):
-    def __init__(self, initial_planets=12):
+    def __init__(self, initial_planets=const.INITIAL_PLANET_COUNT):
         self.planets = []
-        self.money = 1000
-        self.travel_cost = 100
-        self.exploration_cost = 1000
-        self.capacity = 100
+        self.money = const.INITIAL_MONEY
+        self.travel_cost = const.INITIAL_TRAVEL_COST
+        self.capacity = const.INITIAL_ITEM_CAPACITY
         self.store_items = []
         self.items = ItemCollection()
         self.warehouse = ItemCollection()
