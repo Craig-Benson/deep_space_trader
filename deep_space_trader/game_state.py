@@ -14,7 +14,6 @@ class State(object):
         self.money = const.INITIAL_MONEY
         self.travel_cost = const.INITIAL_TRAVEL_COST
         self.capacity = const.INITIAL_ITEM_CAPACITY
-        self.store_items = []
         self.items = ItemCollection()
         self.warehouse = ItemCollection()
         self.max_days = const.INITIAL_MAX_DAYS

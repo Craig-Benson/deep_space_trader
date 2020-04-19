@@ -25,11 +25,8 @@ class PlanetExploration(StoreItem):
         super(PlanetExploration, self).__init__(name, desc, price)
 
     def use(self, parent):
-        ret = yesNoDialog(parent, "Explore?", "Commence exploration for new undiscovered "
-                                            "planets with intelligent life? (cost: %d)"
-                                            % self.price)
-
-        if not ret:
+        if not yesNoDialog(parent, "Are you sure?",
+                           message="Are you sure you want to buy a %s" % self.name):
             return
 
         num_new = random.randrange(*const.PLANET_DISCOVERY_RANGE)
@@ -43,6 +40,7 @@ class PlanetExploration(StoreItem):
 
         parent.infoBar.update()
         parent.locationBrowser.update()
+        return True
 
 
 class PlanetDestruction(StoreItem):
@@ -59,6 +57,7 @@ class PlanetDestruction(StoreItem):
         dialog = PlanetDestructionPicker(parent)
         dialog.setWindowModality(QtCore.Qt.ApplicationModal)
         dialog.exec_()
+        return dialog.accepted
 
 
 store_items = [
@@ -136,13 +135,6 @@ class Store(QtWidgets.QDialog):
         self.populateTable()
         super(Store, self).update()
 
-    def playerHasItem(self, name):
-        for item in self.parent.state.store_items:
-            if item.name == name:
-                return True
-
-        return False
-
     def buyButtonClicked(self):
         selectedRow = self.table.currentRow()
         if selectedRow < 0:
@@ -150,21 +142,15 @@ class Store(QtWidgets.QDialog):
             return
 
         item = store_items[selectedRow]
-        if self.playerHasItem(item.name):
-            errorDialog(self, message="You already have 1 '%s', you must use "
-                                      " it before you can buy another" % item.name)
-            return
-
         if self.parent.state.money < item.price:
             errorDialog(self, message="You don't have enough money to buy '%s'" % item.name)
             return
 
-        self.parent.state.money -= item.price
-        self.parent.state.store_items.append(copy.deepcopy(item))
-        self.updateMoneyLabel()
-        self.parent.infoBar.update()
+        if not item.use(self.parent):
+            return
 
-        infoDialog(self, message="You purchased '%s'" % item.name)
+        self.parent.state.money -= item.price
+        self.updateMoneyLabel()
 
     def sizeHint(self):
         return QtCore.QSize(800, 400)

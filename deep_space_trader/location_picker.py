@@ -7,6 +7,7 @@ class PlanetDestructionPicker(QtWidgets.QDialog):
     def __init__(self, parent):
         super(PlanetDestructionPicker, self).__init__(parent)
 
+        self.accepted = False
         self.parent = parent
         self.mainLayout = QtWidgets.QVBoxLayout(self)
         self.buttonLayout = QtWidgets.QHBoxLayout()
@@ -81,6 +82,8 @@ class PlanetDestructionPicker(QtWidgets.QDialog):
         self.parent.locationBrowser.update()
         self.parent.warehouseItemBrowser.update()
         self.parent.infoBar.update()
+        self.close()
+        self.accepted = True
 
     def sizeHint(self):
         return QtCore.QSize(600, 400)
