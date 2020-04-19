@@ -1,6 +1,7 @@
 import copy
 import random
 from deep_space_trader.utils import errorDialog, infoDialog, yesNoDialog
+from deep_space_trader.location_picker import PlanetDestructionPicker
 from deep_space_trader import constants as const
 
 from PyQt5 import QtWidgets, QtCore, QtGui
@@ -55,7 +56,9 @@ class PlanetDestruction(StoreItem):
         super(PlanetDestruction, self).__init__(name, desc, price)
 
     def use(self, parent):
-        pass
+        dialog = PlanetDestructionPicker(parent)
+        dialog.setWindowModality(QtCore.Qt.ApplicationModal)
+        dialog.exec_()
 
 
 store_items = [

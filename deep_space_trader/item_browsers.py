@@ -1,5 +1,4 @@
 from deep_space_trader.transaction_dialogs import Buy, Sell, PlayerToWarehouse, WarehouseToPlayer
-from deep_space_trader.store import Store
 from deep_space_trader.utils import errorDialog
 
 from PyQt5 import QtWidgets, QtCore, QtGui
@@ -56,7 +55,6 @@ class PlayerItemBrowser(ItemBrowser):
 
         self.add_button("Sell item", self.sellButtonClicked)
         self.add_button("Add to warehouse", self.warehouseButtonClicked)
-        self.add_button("Go to store", self.storeButtonClicked)
 
     def sellButtonClicked(self):
         selectedRow = self.table.currentRow()
@@ -82,11 +80,6 @@ class PlayerItemBrowser(ItemBrowser):
 
         itemname = self.table.item(selectedRow, 0).text()
         dialog = PlayerToWarehouse(self.parent, itemname)
-        dialog.setWindowModality(QtCore.Qt.ApplicationModal)
-        dialog.exec_()
-
-    def storeButtonClicked(self):
-        dialog = Store(self.parent)
         dialog.setWindowModality(QtCore.Qt.ApplicationModal)
         dialog.exec_()
 

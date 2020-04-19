@@ -97,6 +97,10 @@ class ItemCollection(object):
         if (other.items[itemname].quantity == 0) and delete_empty:
             del other.items[itemname]
 
+    def add_all_items(self, other, delete_empty=True):
+        for name in list(other.items.keys()):
+            self.add_items(name, other, other.items[name].quantity, delete_empty)
+
     def count(self):
         ret = 0
         for name in self.items:

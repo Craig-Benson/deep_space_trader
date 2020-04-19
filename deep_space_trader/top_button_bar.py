@@ -1,3 +1,4 @@
+from deep_space_trader.store import Store
 from deep_space_trader.utils import errorDialog, yesNoDialog, infoDialog
 
 from PyQt5 import QtWidgets, QtCore, QtGui
@@ -90,7 +91,9 @@ class ButtonBar(QtWidgets.QWidget):
         self.mainLayout.addWidget(self.dayButton)
 
     def storeButtonClicked(self):
-        pass
+        dialog = Store(self.parent)
+        dialog.setWindowModality(QtCore.Qt.ApplicationModal)
+        dialog.exec_()
 
     def dayButtonClicked(self):
         pass
