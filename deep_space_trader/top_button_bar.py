@@ -1,4 +1,6 @@
 from deep_space_trader.store import Store
+from deep_space_trader import constants as const
+from deep_space_trader import config
 from deep_space_trader.utils import errorDialog, yesNoDialog, infoDialog
 
 from PyQt5 import QtWidgets, QtCore, QtGui
@@ -24,6 +26,40 @@ class ButtonBar(QtWidgets.QWidget):
         dialog.setWindowModality(QtCore.Qt.ApplicationModal)
         dialog.exec_()
 
+    def checkHighScore(self):
+        scores = config.highscores()
+
+        # High scores are sorted in descending order
+        if (len(scores) > 0) and (self.parent.state.money <= scores[0][1]):
+            return
+
+        proceed = yesNoDialog(self, "High score!",
+                              message="You have achieved a high score (%d) ! "
+                                      "would you like to enter your name? (high "
+                                      "scores are only stored locally)" % self.parent.state.money)
+
+        if not proceed:
+            return
+
+        name = None
+
+        while True:
+            name, accepted = QtWidgets.QInputDialog.getText(self, 'Enter name',
+                                                            "Enter your name for the high score table")
+
+            if not accepted:
+                return
+
+            if len(name) > const.MAX_HIGHSCORE_NAME_LEN:
+                errorDialog(self, "Too long", "Name is too long (max %d characters)"
+                                  % const.MAX_HIGHSCORE_NAME_LEN)
+            else:
+                break
+
+        config.add_highscore(name, self.parent.state.money)
+        config.config_store()
+        self.parent.showHighScores()
+
     def dayButtonClicked(self):
         if self.parent.state.next_day():
             # Days remaining
@@ -32,6 +68,8 @@ class ButtonBar(QtWidgets.QWidget):
         else:
             # No days remaining
             infoDialog(self, "Game complete", message="You are done")
+
+            self.checkHighScore()
 
             self.parent.state.initialize()
             self.parent.infoBar.update()

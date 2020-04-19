@@ -40,6 +40,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.quitAction.setStatusTip("Stop playing the game")
         self.quitAction.triggered.connect(self.widget.quit)
 
+        self.scoresAction = QtWidgets.QAction("Show high scores", self)
+        self.scoresAction.setShortcut("Ctrl+s")
+        self.scoresAction.setStatusTip("Show table of high scores")
+        self.scoresAction.triggered.connect(self.widget.showHighScores)
+
         self.pricesAction = QtWidgets.QAction("Material prices", self)
         self.pricesAction.setShortcut("Ctrl+p")
         self.pricesAction.setStatusTip("Show base prices for tradeable items")
@@ -48,6 +53,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Build menu bar
         menu = self.menuBar()
         fileMenu = menu.addMenu("File")
+        fileMenu.addAction(self.scoresAction)
         fileMenu.addAction(self.quitAction)
 
         helpMenu = menu.addMenu("Help")

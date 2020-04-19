@@ -58,3 +58,6 @@ WAREHOUSE_PUTS_PER_DAY = 1
 
 # Amount to increase capacity by
 CAPACITY_INCREASE = 100
+
+# Max. length of names for high scores
+MAX_HIGHSCORE_NAME_LEN = 32

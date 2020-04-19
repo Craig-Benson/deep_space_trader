@@ -8,8 +8,10 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 
 from deep_space_trader.utils import yesNoDialog, errorDialog
 from deep_space_trader.game_state import State
+from deep_space_trader import config
 from deep_space_trader.location_browser import LocationBrowser
 from deep_space_trader.top_button_bar import ButtonBar
+from deep_space_trader.high_scores import HighScoreTable
 from deep_space_trader.item_browsers import PlayerItemBrowser, PlanetItemBrowser, WarehouseItemBrowser
 from deep_space_trader.item_prices import PricesTable
 from deep_space_trader.information_bar import InfoBar
@@ -92,10 +94,17 @@ class MainWidget(QtWidgets.QDialog):
         self.mainLayout.addLayout(middleColumnLayout)
         self.mainLayout.addLayout(lastColumnLayout)
 
+        config.config_load()
+
     def updatePlayerItemsLabel(self):
         self.playerItemBrowserGroup.setTitle("Your items (%d/%d)" %
                                              (self.state.items.count(),
                                              self.state.capacity))
+
+    def showHighScores(self):
+        dialog = HighScoreTable(self)
+        dialog.setWindowModality(QtCore.Qt.ApplicationModal)
+        dialog.exec_()
 
     def showPrices(self):
         dialog = PricesTable(self)
