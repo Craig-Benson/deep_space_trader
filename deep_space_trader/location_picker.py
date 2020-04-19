@@ -85,5 +85,8 @@ class PlanetDestructionPicker(QtWidgets.QDialog):
         self.close()
         self.accepted = True
 
+        infoDialog(self.parent, "Success", message="Your destruction of %s is complete."
+                                                   % planet.full_name)
+
     def sizeHint(self):
         return QtCore.QSize(600, 400)

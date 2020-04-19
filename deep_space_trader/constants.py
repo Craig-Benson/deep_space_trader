@@ -43,7 +43,7 @@ RARE_QUANTITY_RANGE = (10, 100)
 
 PLANET_EXPLORATION_COST = 1000
 PLANET_DESTRUCTION_COST = 1000
-
+CAPACITY_INCREASE_COST = 1000
 
 # ----- Misc. values -----
 
@@ -55,3 +55,6 @@ WAREHOUSE_GETS_PER_DAY = 1
 
 # Number of warehouse storage operations allowed per day
 WAREHOUSE_PUTS_PER_DAY = 1
+
+# Amount to increase capacity by
+CAPACITY_INCREASE = 100

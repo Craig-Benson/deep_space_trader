@@ -60,7 +60,32 @@ class PlanetDestruction(StoreItem):
         return dialog.accepted
 
 
+class CapacityIncrease(StoreItem):
+    def __init__(self):
+        incr = const.CAPACITY_INCREASE
+        price = const.CAPACITY_INCREASE_COST
+        name = "Increase item capacity"
+        desc = (
+            "Increases your item capacity by %s" % incr
+        )
+
+        super(CapacityIncrease, self).__init__(name, desc, price)
+
+    def use(self, parent):
+        if not yesNoDialog(parent, "Are you sure?",
+                           message="Are you sure want to increase your capacity?"):
+            return False
+
+        parent.state.capacity += const.CAPACITY_INCREASE
+        parent.infoBar.update()
+
+        infoDialog(parent, "Success", message="Capacity successfully increased. "
+                                              "New capacity is %d" % parent.state.capacity)
+        return True
+
+
 store_items = [
+    CapacityIncrease(),
     PlanetExploration(),
     PlanetDestruction()
 ]
@@ -150,7 +175,7 @@ class Store(QtWidgets.QDialog):
             return
 
         self.parent.state.money -= item.price
-        self.updateMoneyLabel()
+        self.parent.infoBar.update()
 
     def sizeHint(self):
         return QtCore.QSize(800, 400)
