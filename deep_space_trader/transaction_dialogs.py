@@ -136,6 +136,7 @@ class PlayerToWarehouse(TransactionDialog):
         self.acceptButton.setText("Move")
 
     def acceptTransaction(self, quantity):
+        self.parent.state.warehouse_puts += 1
         self.parent.state.warehouse.add_items(self.itemName,
                                               self.parent.state.items,
                                               quantity)
@@ -158,6 +159,7 @@ class WarehouseToPlayer(TransactionDialog):
         self.acceptButton.setText("Move")
 
     def acceptTransaction(self, quantity):
+        self.parent.state.warehouse_gets += 1
         self.parent.state.items.add_items(self.itemName,
                                           self.parent.state.warehouse,
                                           quantity)
@@ -166,4 +168,4 @@ class WarehouseToPlayer(TransactionDialog):
         self.spinboxLabel.setText("Move quantity")
 
     def maximumQuantity(self):
-        return self.quantity
+        return min(self.quantity, self.parent.state.capacity)

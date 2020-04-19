@@ -3,7 +3,7 @@ INITIAL_MONEY = 1000
 INITIAL_TRAVEL_COST = 100
 INITIAL_ITEM_CAPACITY = 100
 INITIAL_PLANET_COUNT = 12
-
+INITIAL_MAX_DAYS = 30
 
 # ------ Base prices for trade items ------
 
@@ -49,3 +49,9 @@ PLANET_DESTRUCTION_COST = 1000
 
 # Planet exploration will always yield some number of new planets in this range
 PLANET_DISCOVERY_RANGE = (2, 12)
+
+# Number of warehouse retrieval operations allowed per day
+WAREHOUSE_GETS_PER_DAY = 1
+
+# Number of warehouse storage operations allowed per day
+WAREHOUSE_PUTS_PER_DAY = 1

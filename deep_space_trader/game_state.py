@@ -6,7 +6,10 @@ from deep_space_trader import constants as const
 
 
 class State(object):
-    def __init__(self, initial_planets=const.INITIAL_PLANET_COUNT):
+    def __init__(self):
+        self.initialize()
+
+    def initialize(self):
         self.planets = []
         self.money = const.INITIAL_MONEY
         self.travel_cost = const.INITIAL_TRAVEL_COST
@@ -14,13 +17,17 @@ class State(object):
         self.store_items = []
         self.items = ItemCollection()
         self.warehouse = ItemCollection()
+        self.max_days = const.INITIAL_MAX_DAYS
+        self.day = 1
         self.level = 1
 
-        self.expand_planets(initial_planets)
+        self.warehouse_puts = 0
+        self.warehouse_gets = 0
+        self.expand_planets(const.INITIAL_PLANET_COUNT)
         self.current_planet = self.planets[0]
         self.current_planet.visited = True
-
         self.previous_planet = None
+
 
     def change_current_planet(self, planetname):
         for p in self.planets:
@@ -29,6 +36,15 @@ class State(object):
                 self.current_planet = p
                 self.current_planet.visited = True
                 return
+
+    def next_day(self):
+        if self.day == self.max_days:
+            return False
+
+        self.day += 1
+        self.warehouse_puts = 0
+        self.warehouse_gets = 0
+        return True
 
     def expand_planets(self, num_new=None):
         if num_new is None:

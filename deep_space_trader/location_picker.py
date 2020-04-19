@@ -68,19 +68,18 @@ class PlanetDestructionPicker(QtWidgets.QDialog):
         proceed = yesNoDialog(self, "Are you sure?",
                               message="Are you sure you want to destroy the "
                                       "planet {0}? {0} will cease to exist, and "
-                                      "you will gain all tradeable items currently "
-                                      "available on {0}, as well as any unmined "
-                                      "materials that make up the planet "
-                                      "itself.".format(planet.full_name))
+                                      "all tradeable items that currrently exist "
+                                      "on {0} will be shipped to your "
+                                      "warehouse.".format(planet.full_name))
         if not proceed:
             return
 
-        self.parent.state.items.add_all_items(planet.items)
+        self.parent.state.warehouse.add_all_items(planet.items)
         del self.parent.state.planets[selectedRow]
 
         self.parent.infoBar.update()
         self.parent.locationBrowser.update()
-        self.parent.playerItemBrowser.update()
+        self.parent.warehouseItemBrowser.update()
         self.parent.infoBar.update()
 
     def sizeHint(self):

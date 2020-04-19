@@ -96,7 +96,20 @@ class ButtonBar(QtWidgets.QWidget):
         dialog.exec_()
 
     def dayButtonClicked(self):
-        pass
+        if self.parent.state.next_day():
+            # Days remaining
+            self.parent.infoBar.update()
+            self.parent.planetItemBrowser.update()
+        else:
+            # No days remaining
+            infoDialog(self, "Game complete", message="You are done")
+
+            self.parent.state.initialize()
+            self.parent.infoBar.update()
+            self.parent.locationBrowser.update()
+            self.parent.playerItemBrowser.update()
+            self.parent.planetItemBrowser.update()
+            self.parent.warehouseItemBrowser.update()
 
     def useButtonClicked(self):
         dialog = StoreItemSelector(self.parent)

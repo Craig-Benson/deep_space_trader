@@ -1,4 +1,5 @@
 from deep_space_trader.transaction_dialogs import Buy, Sell, PlayerToWarehouse, WarehouseToPlayer
+from deep_space_trader import constants as const
 from deep_space_trader.utils import errorDialog
 
 from PyQt5 import QtWidgets, QtCore, QtGui
@@ -10,7 +11,7 @@ class ItemBrowser(QtWidgets.QWidget):
 
         self.parent = parent
         self.mainLayout = QtWidgets.QVBoxLayout(self)
-        self.buttonLayout = QtWidgets.QHBoxLayout(self)
+        self.buttonLayout = QtWidgets.QHBoxLayout()
 
         self.table = QtWidgets.QTableWidget()
         self.table.verticalHeader().setVisible(False)
@@ -73,6 +74,11 @@ class PlayerItemBrowser(ItemBrowser):
         dialog.exec_()
 
     def warehouseButtonClicked(self):
+        if self.parent.state.warehouse_puts == const.WAREHOUSE_PUTS_PER_DAY:
+            errorDialog(self, "Warehouse", message="You cannot put anything else "
+                                                   "in the warehouse until tomorrow")
+            return
+
         selectedRow = self.table.currentRow()
         if selectedRow < 0:
             errorDialog(self, message="Please select an item first!")
@@ -163,6 +169,11 @@ class WarehouseItemBrowser(ItemBrowser):
         self.add_button("Retrieve from warehouse", self.removeButtonClicked)
 
     def removeButtonClicked(self):
+        if self.parent.state.warehouse_gets == const.WAREHOUSE_GETS_PER_DAY:
+            errorDialog(self, "Warehouse", message="You cannot take anything else "
+                                                   "from the warehouse until tomorrow")
+            return
+
         selectedRow = self.table.currentRow()
         if selectedRow < 0:
             errorDialog(self, message="Please select an item first!")
