@@ -54,11 +54,13 @@ class ButtonBar(QtWidgets.QWidget):
         if not proceed:
             return
 
+        initial_text = '' if len(scores) == 0 else scores[0][0]
         name = None
 
         while True:
             name, accepted = QtWidgets.QInputDialog.getText(self, 'Enter name',
-                                                            "Enter your name for the high score table")
+                                                            "Enter your name for the high score table",
+                                                            text=initial_text)
 
             if not accepted:
                 return
