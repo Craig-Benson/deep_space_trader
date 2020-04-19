@@ -114,6 +114,14 @@ class MainWidget(QtWidgets.QDialog):
     def warningBeforeQuit(self):
         return yesNoDialog(self, "Are you sure?", "Are you sure you want to quit?")
 
+    def reset(self):
+        self.state.initialize()
+        self.infoBar.update()
+        self.locationBrowser.update()
+        self.playerItemBrowser.update()
+        self.planetItemBrowser.update()
+        self.warehouseItemBrowser.update()
+
     def quit(self):
         if self.warningBeforeQuit():
             QtWidgets.qApp.quit()

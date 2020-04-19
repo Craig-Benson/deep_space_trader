@@ -13,6 +13,10 @@ class ButtonBar(QtWidgets.QWidget):
         self.parent = parent
         self.mainLayout = QtWidgets.QHBoxLayout(self)
 
+        self.resetButton = QtWidgets.QPushButton("Reset")
+        self.resetButton.clicked.connect(self.resetButtonClicked)
+        self.mainLayout.addWidget(self.resetButton)
+
         self.storeButton = QtWidgets.QPushButton("Go to store")
         self.storeButton.clicked.connect(self.storeButtonClicked)
         self.mainLayout.addWidget(self.storeButton)
@@ -20,6 +24,15 @@ class ButtonBar(QtWidgets.QWidget):
         self.dayButton = QtWidgets.QPushButton("Go to next day")
         self.dayButton.clicked.connect(self.dayButtonClicked)
         self.mainLayout.addWidget(self.dayButton)
+
+    def resetButtonClicked(self):
+        proceed = yesNoDialog(self, "Are you sure?",
+                              message="Are you sure you want to reset the game and "
+                                      "lose your progress?")
+        if not proceed:
+            return
+
+        self.parent.reset()
 
     def storeButtonClicked(self):
         dialog = Store(self.parent)
@@ -71,12 +84,7 @@ class ButtonBar(QtWidgets.QWidget):
 
             self.checkHighScore()
 
-            self.parent.state.initialize()
-            self.parent.infoBar.update()
-            self.parent.locationBrowser.update()
-            self.parent.playerItemBrowser.update()
-            self.parent.planetItemBrowser.update()
-            self.parent.warehouseItemBrowser.update()
+            self.parent.reset()
 
     def useButtonClicked(self):
         dialog = StoreItemSelector(self.parent)
