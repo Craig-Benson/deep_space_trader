@@ -19,12 +19,12 @@ class Planet(object):
             'ka', 'la', 'ny', 'ky', 'dy', 'bar', 'blar', 'ger', 'yur', 'her',
             'zor', 'for', 'nor', 'wor', 'gor', 'noth', 'roth', 'nith', 'lith',
             'sith', 'dith', 'ith', 'oth', 'orb', 'urb', 'erb', 'zorb', 'zor',
-            'zer', 'zerb', 'zera', 'terr', 'err'
+            'zer', 'zerb', 'zera', 'ter', 'er', 'sta', 'gra', 'bra'
         ],
         [
             'ta', 'te', 'ti', 'to', 'tu', 'ba', 'be', 'bi', 'bo', 'tis', 'ris',
             'beur', 'bu', 'po', 'cu', 'lur', 'mur', 'tu', 'da', 'de', 'di', 'do',
-            'du', 'ter', 'der', 'ser', 'per', 'fu', 'fer', 'ler', 'zer', 'wi',
+            'du', 'lor', 'der', 'ser', 'per', 'fu', 'fer', 'ler', 'zer', 'wi',
             'bre', 'dre', 'pre', 'tre', 're', 'fe', 'ge', 'ga', 'gu', 'du', 'mu',
             'nu', 'ru'
         ],
@@ -32,8 +32,9 @@ class Planet(object):
             'res', 'lia', 'gese', 'naise', 'bler', 'pler', 'teres', 'tere',
             'pules', 'ner', 'yer', 'prer', 'padia', 'dium', 'dum', 'rem', 'tem',
             'tis', 'ratis', 'cus', 'rus', 'tus', 'rus', 'muth', 'yuth', 'reth',
-            'roth', 'rath', 'bath', 'tath', 'path', 'padia', 'radia', 'anus',
-            'nus', 'ban', 'tan', 'lan', 'dan', 'man', 'nan', 'xan', 'zan', 'pan'
+            'doth', 'rath', 'bath', 'tath', 'path', 'adia', 'radia', 'anus',
+            'nus', 'ban', 'tan', 'lan', 'dan', 'man', 'nan', 'xan', 'zan', 'pan',
+            'ius', 'rious', 'tius', 'bius', 'sius', 'ise', 'use'
         ],
     ]
 
