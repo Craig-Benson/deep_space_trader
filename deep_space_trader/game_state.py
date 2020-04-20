@@ -49,7 +49,7 @@ class State(object):
         if num_new is None:
             num_new = random.randrange(1, 10)
 
-        new_planets = Planet.random(num=num_new)
+        new_planets = Planet.random(num=num_new, existing=self.planets)
         for new in new_planets:
             new.items = ItemCollection.random(value_multiplier=self.level,
                                               quantity_multiplier=self.level)
