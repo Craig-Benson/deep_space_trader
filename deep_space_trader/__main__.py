@@ -1,5 +1,7 @@
 import sys
 import os
+import random
+import time
 
 from deep_space_trader.main_widget import MainWidget
 
@@ -32,6 +34,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.compassPath = os.path.join(imageDir, 'compass.png')
         self.setWindowIcon(QtGui.QIcon(self.iconPath))
 
+        random.seed(time.time())
         self.widget = MainWidget(self.primary_screen, self)
         self.setCentralWidget(self.widget)
 
