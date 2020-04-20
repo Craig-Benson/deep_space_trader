@@ -39,6 +39,15 @@ class Planet(object):
     ]
 
     @classmethod
+    def num_possible_planets(cls):
+        """
+        Calculates the number of possible unique planet names based on the number
+        of planet name parts we are working with
+        """
+        return ((len(cls.parts[0]) * len(cls.parts[1]) * len(cls.parts[2]) +
+                (len(cls.parts[0]) * len(cls.parts[2]))))
+
+    @classmethod
     def _random_planet(cls, long_name_prob=35, number_suffix_prob=35, letter_suffix_prob=35):
         if random.randrange(0, 100) < long_name_prob:
             # 3-part name
