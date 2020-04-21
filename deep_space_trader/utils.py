@@ -4,7 +4,9 @@ import base64
 from PyQt5 import QtWidgets
 
 
-_pwd = b'g\x54n70erew feasf90s gf\xff\x0f\x290780 9\x02ng7804\x00>:": k'
+DATA_ITER = 99
+PWD_ITER = 72
+PWD = b'g\x54n70erew feasf90s gf\xff\x0f\x290780 9\x02ng7804\x00>:": k'
 
 
 def yesNoDialog(parent, header="", message="Are you sure?"):
@@ -53,8 +55,8 @@ def _iter_bytes(data, byte_func):
     pwd_rounds = 0
     data_rounds = 0
 
-    while (data_rounds < 100) and (pwd_rounds < 100):
-        ret[i] = byte_func(ret[i], _pwd[j], 256)
+    while (data_rounds < DATA_ITER) and (pwd_rounds < PWD_ITER):
+        ret[i] = byte_func(ret[i], PWD[j], 256)
 
         if i < (len(data) - 1):
             i += 1
@@ -62,20 +64,29 @@ def _iter_bytes(data, byte_func):
             i = 0
             data_rounds += 1
 
-        if j < (len(_pwd) - 1):
+        if j < (len(PWD) - 1):
             j += 1
         else:
             j = 0
             pwd_rounds += 1
 
-    return bytes(ret)
+    return data_rounds * pwd_rounds, bytes(ret)
 
 # note: scores_encode is not cryptographically secure by any means. It is
 # a simple byte-scrambling function to prevent shared high scores from being
 # easily modified, but I'm sure someone who really wanted could easily crack it
 
 def scores_encode(data):
-    return base64.b64encode(_iter_bytes(data, _add_wrap))
+    number, data = _iter_bytes(data, _add_wrap)
+    data += b':' + bytes(str(number), encoding='utf8')
+    return base64.b64encode(data)
 
 def scores_decode(data):
-    return _iter_bytes(base64.b64decode(data), _sub_wrap)
+    string = base64.b64decode(data)
+    fields = string.split(b':')
+    expected_num = int(fields[-1].decode('utf-8'))
+    number, data = _iter_bytes(b':'.join(fields[:-1]), _sub_wrap)
+    if number != expected_num:
+        return None
+
+    return data
