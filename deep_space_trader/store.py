@@ -36,7 +36,7 @@ class PlanetExploration(StoreItem):
         name_listing = '<br>'.join(new_names)
 
         infoDialog(parent, "%d new planets with intelligent life have "
-                         "been discovered!<br><br>%s" % (num_new, name_listing))
+                           "been discovered!<br><br>%s" % (num_new, name_listing))
 
         parent.infoBar.update()
         parent.locationBrowser.update()
@@ -66,7 +66,7 @@ class CapacityIncrease(StoreItem):
         price = const.CAPACITY_INCREASE_COST
         name = "Increase item capacity"
         desc = (
-            "Increases your item capacity by %s" % incr
+                "Increases your item capacity by %s" % incr
         )
 
         super(CapacityIncrease, self).__init__(name, desc, price)
@@ -83,10 +83,38 @@ class CapacityIncrease(StoreItem):
                                               "New capacity is %d" % parent.state.capacity)
         return True
 
+class LongRangeScanner(StoreItem):
+    def __init__(self):
+
+        price = const.LONG_RANGE_SCANNER_COST
+        name = "Long range scanner"
+        desc = (#To Do change Radiology its stupid just a placeholder
+            "Allows ability to scan planets to see its resources,"
+            "you will need a crew member with the Radiology skill to use it"
+        )
+
+        super(LongRangeScanner, self).__init__(name, desc, price)
+
+    def use(self, parent):
+        if not yesNoDialog(parent, "Are you sure?",
+                           message="Are you sure want to buy the long range scanner?"):
+            return False
+
+        parent.state.scanner_unlocked = True
+        #To Do add in long range ui in parent.infoBar.update()
+        parent.infoBar.update()
+        #To Do change radiologist
+        infoDialog(parent, "Success", message="Long Range Scanner unlocked,"
+                                              "assign a crew member with the Radiology skill to it."
+                   )
+
+        return True
+
 
 store_items = [
     CapacityIncrease(),
     PlanetExploration(),
+    LongRangeScanner(),
     PlanetDestruction()
 ]
 

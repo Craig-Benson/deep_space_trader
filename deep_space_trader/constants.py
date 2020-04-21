@@ -43,6 +43,7 @@ RARE_QUANTITY_RANGE = (10, 100)
 
 CAPACITY_INCREASE_COST = 250
 PLANET_EXPLORATION_COST = 1000
+LONG_RANGE_SCANNER_COST = 1000
 PLANET_DESTRUCTION_COST = 2000
 
 # ----- Misc. values -----
@@ -58,6 +59,9 @@ WAREHOUSE_PUTS_PER_DAY = 1
 
 # Amount to increase capacity by
 CAPACITY_INCREASE = 100
+
+# Long Range Scanner unlocked
+LONG_RANGE_SCANNER = False
 
 # Max. length of names for high scores
 MAX_HIGHSCORE_NAME_LEN = 32

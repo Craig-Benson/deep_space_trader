@@ -3,7 +3,7 @@ import random
 from deep_space_trader.planet import Planet
 from deep_space_trader.items import ItemCollection
 from deep_space_trader import constants as const
-
+from deep_space_trader import trader as trader
 
 class State(object):
     def __init__(self):
@@ -19,6 +19,7 @@ class State(object):
         self.max_days = const.INITIAL_MAX_DAYS
         self.day = 1
         self.level = 1
+        self.scanner_unlocked = const.LONG_RANGE_SCANNER
 
         self.warehouse_puts = 0
         self.warehouse_gets = 0
@@ -40,6 +41,8 @@ class State(object):
         if self.day == self.max_days:
             return False
 
+        self.trader = trader
+
         self.day += 1
         self.warehouse_puts = 0
         self.warehouse_gets = 0
@@ -49,7 +52,7 @@ class State(object):
         if num_new is None:
             num_new = random.randrange(1, 10)
 
-        new_planets = Planet.random(num=num_new, existing=self.planets)
+        new_planets = Planet.random(num=num_new)
         for new in new_planets:
             new.items = ItemCollection.random(value_multiplier=self.level,
                                               quantity_multiplier=self.level)
