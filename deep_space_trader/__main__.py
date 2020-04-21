@@ -53,10 +53,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pricesAction.setStatusTip("Show base prices for tradeable items")
         self.pricesAction.triggered.connect(self.widget.showPrices)
 
+        self.shareScoresAction = QtWidgets.QAction("High score sharing", self)
+        self.shareScoresAction.setShortcut("Ctrl+h")
+        self.shareScoresAction.setStatusTip("Share your high scores with others")
+        self.shareScoresAction.triggered.connect(self.widget.shareHighScores)
+
         # Build menu bar
         menu = self.menuBar()
         fileMenu = menu.addMenu("File")
         fileMenu.addAction(self.scoresAction)
+        fileMenu.addAction(self.shareScoresAction)
         fileMenu.addAction(self.quitAction)
 
         helpMenu = menu.addMenu("Help")
