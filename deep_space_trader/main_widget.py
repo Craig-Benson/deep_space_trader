@@ -11,7 +11,7 @@ from deep_space_trader.game_state import State
 from deep_space_trader import config
 from deep_space_trader.location_browser import LocationBrowser
 from deep_space_trader.top_button_bar import ButtonBar
-from deep_space_trader.high_scores import HighScoreTable
+from deep_space_trader.high_scores import HighScoreTable, HighScoreSharing
 from deep_space_trader.item_browsers import PlayerItemBrowser, PlanetItemBrowser, WarehouseItemBrowser
 from deep_space_trader.item_prices import PricesTable
 from deep_space_trader.information_bar import InfoBar
@@ -106,6 +106,11 @@ class MainWidget(QtWidgets.QDialog):
         dialog.setWindowModality(QtCore.Qt.ApplicationModal)
         dialog.exec_()
 
+    def shareHighScores(self):
+        dialog = HighScoreSharing(self)
+        dialog.setWindowModality(QtCore.Qt.ApplicationModal)
+        dialog.exec_()
+
     def showPrices(self):
         dialog = PricesTable(self)
         dialog.setWindowModality(QtCore.Qt.ApplicationModal)
@@ -124,6 +129,7 @@ class MainWidget(QtWidgets.QDialog):
 
     def quit(self):
         if self.warningBeforeQuit():
+            config.config_store()
             QtWidgets.qApp.quit()
 
     def keyPressEvent(self, event):

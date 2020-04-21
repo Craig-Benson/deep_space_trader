@@ -1,4 +1,8 @@
+import json
+
 from deep_space_trader import config
+from deep_space_trader.utils import yesNoDialog, errorDialog, infoDialog
+from deep_space_trader.utils import scores_encode, scores_decode
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
@@ -54,3 +58,74 @@ class HighScoreTable(QtWidgets.QDialog):
 
     def sizeHint(self):
         return QtCore.QSize(600, 400)
+
+
+class HighScoreSharing(QtWidgets.QDialog):
+    def __init__(self, parent):
+        super(HighScoreSharing, self).__init__(parent)
+
+        self.parent = parent
+        self.mainLayout = QtWidgets.QVBoxLayout(self)
+
+        displayLayout = QtWidgets.QHBoxLayout()
+        self.displayScores = QtWidgets.QTextEdit()
+        self.displayScores.setReadOnly(True)
+        displayLayout.addWidget(self.displayScores)
+        displayGroup = QtWidgets.QGroupBox("Copy this string to share your "
+                                           "scores with someone else")
+        displayGroup.setLayout(displayLayout)
+        self.mainLayout.addWidget(displayGroup)
+
+        inputLayout = QtWidgets.QVBoxLayout()
+        self.inputScores = QtWidgets.QTextEdit()
+        inputLayout.addWidget(self.inputScores)
+
+        self.inputButton = QtWidgets.QPushButton("Add high scores")
+        self.inputButton.clicked.connect(self.inputButtonClicked)
+        inputLayout.addWidget(self.inputButton)
+
+        inputGroup = QtWidgets.QGroupBox("Paste someone else's string here to "
+                                         "add their scores to your high score "
+                                         "table")
+
+        inputGroup.setLayout(inputLayout)
+        self.mainLayout.addWidget(inputGroup)
+
+        self.setLayout(self.mainLayout)
+        self.setWindowTitle("High score sharing")
+
+        self.update()
+
+    def inputButtonClicked(self):
+        text = self.inputScores.toPlainText().strip()
+        if text == "":
+            return
+
+        try:
+            b64 = bytes(text, encoding='utf8')
+            decoded = scores_decode(b64).decode('utf-8')
+            scores = json.loads(decoded)
+        except:
+            errorDialog(self, "Error", message="Failed to decode high scores")
+            return
+
+        scores_msg = "The string you added contains the following scores:<br><br>"
+        scores_msg += "<br>".join(['%s (%s)' % (x[0], x[1]) for x in scores])
+        scores_msg += "<br><br>"
+        scores_msg += "Are you sure you want to add them to your high scores?"
+
+        proceed = yesNoDialog(self, "Add scores?", message=scores_msg)
+        if not proceed:
+            return
+
+        for name, score in scores:
+            config.add_highscore(name, score)
+
+        infoDialog(self, "Success", "Scores added successfully")
+
+    def update(self):
+        super(HighScoreSharing, self).update()
+
+        data = json.dumps(config.highscores())
+        b64 = scores_encode(bytes(data, encoding='utf8'))
+        self.displayScores.setText(b64.decode('utf-8'))
